@@ -53,7 +53,7 @@ func StartServer() {
 		}
 
 		for k, v := range c.Request.Header {
-			c.Header(k, v[0])
+			req.Header.Set(k, v[0])
 		}
 
 		resp, err := httpClient.Do(req)
