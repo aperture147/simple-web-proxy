@@ -44,8 +44,20 @@ func StartServer() {
 			})
 			return
 		}
+		req, err := http.NewRequest(http.MethodGet, value, nil)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
 
-		resp, err := httpClient.Get(value)
+		for k, v := range c.Request.Header {
+			c.Header(k, v[0])
+		}
+
+		resp, err := httpClient.Do(req)
+
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"error": err.Error(),
